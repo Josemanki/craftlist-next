@@ -1,4 +1,11 @@
-import { Box, Container, createStyles, List, Text } from '@mantine/core';
+import {
+  Box,
+  Container,
+  createStyles,
+  List,
+  SimpleGrid,
+  Text,
+} from '@mantine/core';
 import Image from 'next/image';
 import React from 'react';
 
@@ -11,15 +18,14 @@ const useStyles = createStyles((theme) => ({
     listStyle: 'none',
     width: '100%',
     padding: 0,
-    boxShadow: `2px 0 0 0 ${theme.colors.dark[5]},
-    0 2px 0 0 ${theme.colors.dark[5]},
-    2px 2px 0 0 ${theme.colors.dark[5]},
-    2px 0 0 0 ${theme.colors.dark[5]} inset,
-    0 2px 0 0 ${theme.colors.dark[5]} inset;`,
+    border: `1px solid ${theme.colors.dark[5]}`,
+    borderRadius: theme.radius.sm,
   },
   listItemRow: {
     display: 'flex',
-    gap: '2rem',
+    alignItems: 'center',
+    gap: theme.spacing.md,
+    paddingLeft: theme.spacing.xs,
   },
   listGridItem: {
     padding: '.15rem',
@@ -32,7 +38,7 @@ const useStyles = createStyles((theme) => ({
 export const ResourceTable = (props: ResourceTableProps) => {
   const { classes } = useStyles();
   return (
-    <Container>
+    <>
       <Text weight={600} size={'lg'}>
         Your shopping list
       </Text>
@@ -134,7 +140,7 @@ export const ResourceTable = (props: ResourceTableProps) => {
           </Box>
         </li>
       </ul>
-    </Container>
+    </>
   );
 };
 

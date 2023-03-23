@@ -14,7 +14,11 @@ const useStyles = createStyles((theme) => ({
     height: '100vh',
   },
 
-  content: { flex: '1 0 auto', marginTop: '2rem', marginBottom: '2rem' },
+  content: {
+    flex: '1 0 auto',
+    marginTop: theme.spacing.md,
+    marginBottom: theme.spacing.md,
+  },
 }));
 
 const Layout = ({ children }: LayoutProps) => {

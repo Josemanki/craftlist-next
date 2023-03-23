@@ -66,6 +66,7 @@ const useStyles = createStyles((theme) => ({
     fontSize: '2rem',
     fontWeight: 700,
     textDecoration: 'none',
+    margin: '1rem 0rem',
   },
 
   logoWhiteSpan: {
