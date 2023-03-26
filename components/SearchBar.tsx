@@ -1,27 +1,37 @@
-import { Autocomplete, Loader } from '@mantine/core';
+import { Autocomplete, AutocompleteItem, Group, Loader } from '@mantine/core';
 import React, { useState } from 'react';
+import { AutoCompleteItem } from './AutoCompleteItem';
 
-type Props = {};
+type Props = {
+  value: string;
+  loading: boolean;
+  items: any[];
+  handleChange: (val: string) => void;
+  onItemSubmit: (AutocompleteItem: any) => void;
+};
 
-const SearchBar = (props: Props) => {
-  const [value, setValue] = useState('');
-  const [loading, setLoading] = useState(false);
+const SearchBar = ({
+  value,
+  loading,
+  items,
+  handleChange,
+  onItemSubmit,
+}: Props) => {
+  const data = items.map((item) => ({
+    ...item,
+    quantity: 1,
+    value: item.name,
+  }));
 
-  const handleChange = (val: string) => {
-    setValue(val);
-
-    if (val.trim().length === 0 || val.includes('@')) {
-      setLoading(false);
-    } else {
-      setLoading(true);
-    }
-  };
+  console.log(data);
 
   return (
     <Autocomplete
       value={value}
-      data={[]}
+      data={data}
       onChange={handleChange}
+      itemComponent={AutoCompleteItem}
+      onItemSubmit={(a) => onItemSubmit(a)}
       rightSection={loading ? <Loader size="1rem" /> : null}
       placeholder="Search items"
     />

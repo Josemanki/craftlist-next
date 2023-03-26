@@ -1,39 +1,27 @@
 import { SimpleGrid } from '@mantine/core';
 import React from 'react';
+import { ExtendedItem } from '../types';
 import { ItemCard } from './ItemCard';
 
-type Props = {};
+type Props = {
+  itemList: ExtendedItem[];
+  handleQuantityChange: any;
+};
 
-const ItemCards = (props: Props) => {
+const ItemCards = ({ itemList, handleQuantityChange }: Props) => {
   return (
     <SimpleGrid cols={3}>
-      <ItemCard
-        title="Crocobur"
-        stats={[
-          {
-            title: 'Resources',
-            values: ['Stat here', 'Stat here', 'Stat here'],
-          },
-        ]}
-      />
-      <ItemCard
-        title="Crocobur"
-        stats={[
-          {
-            title: 'Resources',
-            values: ['stat here', 'stat here', 'stat here'],
-          },
-        ]}
-      />
-      <ItemCard
-        title="Crocobur"
-        stats={[
-          {
-            title: 'Resources',
-            values: ['stat here', 'stat here', 'stat here'],
-          },
-        ]}
-      />
+      {itemList.map((itemData) => (
+        <ItemCard
+          item={itemData}
+          key={itemData.ankama_id}
+          resourceIds={itemData.recipe.map((resource) => ({
+            id: String(resource.item_ankama_id),
+            quantity: resource.quantity,
+          }))}
+          handleQuantityChange={handleQuantityChange}
+        />
+      ))}
     </SimpleGrid>
   );
 };

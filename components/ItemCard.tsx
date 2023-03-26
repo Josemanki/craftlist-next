@@ -4,13 +4,17 @@ import {
   Image as MantineImage,
   Text,
   Group,
-  RingProgress,
   rem,
   List,
   Box,
   NumberInput,
+  Loader,
 } from '@mantine/core';
+import { useQueries } from '@tanstack/react-query';
+import axios from 'axios';
 import Image from 'next/image';
+import { useEffect, useState } from 'react';
+import { ExtendedItem } from '../types';
 
 const useStyles = createStyles((theme) => ({
   card: {
@@ -37,53 +41,44 @@ const useStyles = createStyles((theme) => ({
 }));
 
 interface ItemCardProps {
-  title: string;
-  stats: {
-    title: string;
-    values: string[];
-  }[];
+  item: ExtendedItem;
+  handleQuantityChange: any;
+  resourceIds: { id: string; quantity: number }[];
 }
 
-export function ItemCard({ title, stats }: ItemCardProps) {
-  const { classes } = useStyles();
+const RESOURCE_ENDPOINT = 'https://api.dofusdu.de/dofus2/en/items/resources/';
 
-  const items = stats.map((stat) => (
-    <div key={stat.title}>
-      <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
-        <Text size="xs" color="dimmed">
-          {stat.title}
-        </Text>
-        <Text size="xs" color="dimmed">
-          Amount
-        </Text>
-      </Box>
-      <List sx={{ listStyle: 'none', marginTop: '.8rem' }}>
-        {stat.values.map((stat, i) => (
-          <List.Item key={i} sx={{ '&>div': { width: '100%' } }}>
-            <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
-              <Box sx={{ display: 'flex' }}>
-                <Image
-                  src={'/assets/equipment.png'}
-                  alt=""
-                  height={30}
-                  width={30}
-                />
-                <Text ml="xs">{stat}</Text>
-              </Box>
-              <Text ml="xs">{'x2'}</Text>
-            </Box>
-          </List.Item>
-        ))}
-      </List>
-    </div>
-  ));
+export function ItemCard({
+  item,
+  resourceIds,
+  handleQuantityChange,
+}: ItemCardProps) {
+  const { classes } = useStyles();
+  const [inputQuantity, setInputQuantity] = useState(item.quantity);
+
+  useEffect(() => {
+    setInputQuantity(item.quantity);
+  }, [item.quantity]);
+
+  const results = useQueries({
+    queries: resourceIds.map((resource) => ({
+      queryKey: ['resource', resource.id],
+      queryFn: () => axios.get(`${RESOURCE_ENDPOINT}${resource.id}`),
+      staleTime: Infinity,
+    })),
+  });
+
+  const handleInputQuantityChange = (id, value) => {
+    setInputQuantity(value);
+    handleQuantityChange(id, value);
+  };
 
   return (
     <Card withBorder padding="lg" className={classes.card}>
       <Card.Section>
         <MantineImage
-          src={'/assets/equipment.png'}
-          alt={title}
+          src={item.image_urls.hd}
+          alt={item.name}
           height={100}
           fit="contain"
         />
@@ -91,14 +86,17 @@ export function ItemCard({ title, stats }: ItemCardProps) {
 
       <Group position="apart" mt="xl" mb={'sm'} sx={{ flexWrap: 'nowrap' }}>
         <Text fz="sm" fw={700} className={classes.title}>
-          {title}
+          {item.name}
         </Text>
         <Group spacing={5}>
           <NumberInput
-            defaultValue={1}
+            value={inputQuantity}
             min={1}
             max={99}
             size={'sm'}
+            onChange={(value) =>
+              handleInputQuantityChange(item.ankama_id, value)
+            }
             styles={{
               input: {
                 width: rem(60),
@@ -109,7 +107,50 @@ export function ItemCard({ title, stats }: ItemCardProps) {
           />
         </Group>
       </Group>
-      <Card.Section className={classes.footer}>{items}</Card.Section>
+      <Card.Section className={classes.footer}>
+        <div>
+          <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
+            <Text size="xs" color="dimmed">
+              Resource
+            </Text>
+            <Text size="xs" color="dimmed">
+              Amount
+            </Text>
+          </Box>
+          <List sx={{ listStyle: 'none', marginTop: '.8rem' }}>
+            {results &&
+              results.map((result, i) => {
+                const found = resourceIds.find(
+                  (resource) => resource.id == result.data?.data.ankama_id
+                );
+                return result.isLoading ? (
+                  <Box key={i} sx={{ marginLeft: '.5rem' }}>
+                    <Loader size="1rem" />
+                  </Box>
+                ) : (
+                  <List.Item key={i} sx={{ '&>div': { width: '100%' } }}>
+                    <Box
+                      sx={{ display: 'flex', justifyContent: 'space-between' }}
+                    >
+                      <Box sx={{ display: 'flex' }}>
+                        <Image
+                          src={result.data?.data?.image_urls?.sd}
+                          alt=""
+                          height={30}
+                          width={30}
+                        />
+                        <Text ml="xs">{result.data?.data?.name}</Text>
+                      </Box>
+                      <Text ml="xs">
+                        {found ? `x${found.quantity * item.quantity}` : '-'}
+                      </Text>
+                    </Box>
+                  </List.Item>
+                );
+              })}
+          </List>
+        </div>
+      </Card.Section>
     </Card>
   );
 }
