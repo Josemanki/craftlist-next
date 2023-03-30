@@ -6,10 +6,8 @@ export function Footer() {
   return (
     <footer className={classes.footer}>
       <Container className={classes.inner}>
-        <p className={classes.logo}>DofusCraftlist</p>
-        <Group spacing={0} className={classes.credits} position="right" noWrap>
-          <p>Item data provided with ❤️ by Stelzo</p>
-        </Group>
+        <span className={classes.logo}>DofusCraftlist</span>
+        <p className={classes.credits}>Item data provided with ❤️ by Stelzo</p>
       </Container>
     </footer>
   );

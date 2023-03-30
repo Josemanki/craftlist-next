@@ -71,6 +71,9 @@ const useStyles = createStyles((theme) => ({
     padding: 0,
     border: `1px solid ${theme.colors.dark[5]}`,
     borderRadius: theme.radius.sm,
+    [theme.fn.smallerThan('sm')]: {
+      gridTemplateColumns: '1fr',
+    },
   },
   listItemRow: {
     display: 'flex',

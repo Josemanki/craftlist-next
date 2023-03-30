@@ -25,6 +25,7 @@ const SearchBar = ({
 
   return (
     <Autocomplete
+      label="Search item:"
       value={value}
       data={data}
       onChange={handleChange}

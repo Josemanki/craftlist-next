@@ -1,14 +1,18 @@
-import { useState } from 'react';
 import {
-  createStyles,
-  Header as MantineHeader,
-  Container,
-  Group,
   Burger,
+  Button,
+  Container,
+  createStyles,
+  Divider,
+  Drawer,
+  Group,
+  Header as MantineHeader,
   rem,
+  Title,
 } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
 import Link from 'next/link';
+import { useState } from 'react';
 
 interface HeaderProps {
   links: { link: string; label: string }[];
@@ -19,7 +23,7 @@ export function Header({ links }: HeaderProps) {
   const [active, setActive] = useState<string | null>(
     typeof window !== 'undefined' ? location.pathname : null
   );
-  const { classes, cx } = useStyles();
+  const { classes, theme, cx } = useStyles();
 
   const items = links.map((link) => (
     <Link
@@ -37,19 +41,39 @@ export function Header({ links }: HeaderProps) {
     <MantineHeader height={70}>
       <Container className={classes.header}>
         <Link href={'/'} className={classes.logo}>
-          <span className={classes.logoWhiteSpan}>Dofus</span>
-          <span className={classes.logoGreenSpan}>Craftlist</span>
+          <Title order={1}>
+            <span className={classes.logoWhiteSpan}>Dofus</span>
+            <span className={classes.logoGreenSpan}>Craftlist</span>
+          </Title>
         </Link>
-        <Group spacing={5} className={classes.links}>
-          {items}
-        </Group>
+        <nav>
+          <Group spacing={5} className={classes.links}>
+            {items}
+          </Group>
+        </nav>
         <Burger
           opened={opened}
           onClick={toggle}
           className={classes.burger}
-          size="sm"
+          size="md"
         />
       </Container>
+      <Drawer
+        opened={opened}
+        onClose={toggle}
+        size="100%"
+        padding="md"
+        title="Navigation"
+        className={classes.hiddenDesktop}
+        zIndex={1000000}
+        closeButtonProps={{ size: 'lg' }}
+      >
+        <Divider
+          my="sm"
+          color={theme.colorScheme === 'dark' ? 'dark.5' : 'gray.1'}
+        />
+        <nav>{items}</nav>
+      </Drawer>
     </MantineHeader>
   );
 }
@@ -63,13 +87,13 @@ const useStyles = createStyles((theme) => ({
   },
 
   links: {
-    [theme.fn.smallerThan('xs')]: {
+    [theme.fn.smallerThan('sm')]: {
       display: 'none',
     },
   },
 
   burger: {
-    [theme.fn.largerThan('xs')]: {
+    [theme.fn.largerThan('sm')]: {
       display: 'none',
     },
   },
@@ -119,5 +143,17 @@ const useStyles = createStyles((theme) => ({
 
   logoGreenSpan: {
     color: theme.colors.lime[6],
+  },
+
+  hiddenMobile: {
+    [theme.fn.smallerThan('sm')]: {
+      display: 'none',
+    },
+  },
+
+  hiddenDesktop: {
+    [theme.fn.largerThan('sm')]: {
+      display: 'none',
+    },
   },
 }));

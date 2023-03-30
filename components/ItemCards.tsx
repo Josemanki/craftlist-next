@@ -15,7 +15,13 @@ const ItemCards = ({
   handleDeleteItem,
 }: Props) => {
   return (
-    <SimpleGrid cols={3}>
+    <SimpleGrid
+      cols={3}
+      breakpoints={[
+        { maxWidth: 'md', cols: 2, spacing: 'md' },
+        { maxWidth: 'sm', cols: 1, spacing: 'sm' },
+      ]}
+    >
       {itemList.map((itemData) => (
         <ItemCard
           item={itemData}
