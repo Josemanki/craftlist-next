@@ -7,6 +7,17 @@ type LayoutProps = {
   children?: React.ReactNode | React.ReactNode[];
 };
 
+const Layout = ({ children }: LayoutProps) => {
+  const { classes } = useStyles();
+  return (
+    <Box className={classes.wrapper}>
+      <Header links={links} />
+      <Box className={classes.content}>{children}</Box>
+      <Footer />
+    </Box>
+  );
+};
+
 const useStyles = createStyles((theme) => ({
   wrapper: {
     display: 'flex',
@@ -20,16 +31,5 @@ const useStyles = createStyles((theme) => ({
     marginBottom: theme.spacing.md,
   },
 }));
-
-const Layout = ({ children }: LayoutProps) => {
-  const { classes } = useStyles();
-  return (
-    <Box className={classes.wrapper}>
-      <Header links={links} />
-      <Box className={classes.content}>{children}</Box>
-      <Footer />
-    </Box>
-  );
-};
 
 export default Layout;

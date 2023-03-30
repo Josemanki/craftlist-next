@@ -1,5 +1,20 @@
 import { createStyles, Container, Group, rem } from '@mantine/core';
 
+export function Footer() {
+  const { classes } = useStyles();
+
+  return (
+    <footer className={classes.footer}>
+      <Container className={classes.inner}>
+        <p className={classes.logo}>DofusCraftlist</p>
+        <Group spacing={0} className={classes.credits} position="right" noWrap>
+          <p>Item data provided with ❤️ by Stelzo</p>
+        </Group>
+      </Container>
+    </footer>
+  );
+}
+
 const useStyles = createStyles((theme) => ({
   footer: {
     borderTop: `${rem(1)} solid ${
@@ -23,26 +38,13 @@ const useStyles = createStyles((theme) => ({
   credits: {
     [theme.fn.smallerThan('xs')]: {
       marginTop: theme.spacing.md,
+      margin: '0',
     },
   },
 
   logo: {
     fontSize: '1.2rem',
     fontWeight: 700,
+    margin: '0',
   },
 }));
-
-export function Footer() {
-  const { classes } = useStyles();
-
-  return (
-    <footer className={classes.footer}>
-      <Container className={classes.inner}>
-        <p className={classes.logo}>DofusCraftlist</p>
-        <Group spacing={0} className={classes.credits} position="right" noWrap>
-          <p>Item data provided with ❤️ by Stelzo</p>
-        </Group>
-      </Container>
-    </footer>
-  );
-}

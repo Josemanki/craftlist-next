@@ -6,9 +6,14 @@ import { ItemCard } from './ItemCard';
 type Props = {
   itemList: ExtendedItem[];
   handleQuantityChange: any;
+  handleDeleteItem: any;
 };
 
-const ItemCards = ({ itemList, handleQuantityChange }: Props) => {
+const ItemCards = ({
+  itemList,
+  handleQuantityChange,
+  handleDeleteItem,
+}: Props) => {
   return (
     <SimpleGrid cols={3}>
       {itemList.map((itemData) => (
@@ -20,6 +25,7 @@ const ItemCards = ({ itemList, handleQuantityChange }: Props) => {
             quantity: resource.quantity,
           }))}
           handleQuantityChange={handleQuantityChange}
+          handleDeleteItem={handleDeleteItem}
         />
       ))}
     </SimpleGrid>

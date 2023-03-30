@@ -9,6 +9,7 @@ import {
   Box,
   NumberInput,
   Loader,
+  CloseButton,
 } from '@mantine/core';
 import { useQueries } from '@tanstack/react-query';
 import axios from 'axios';
@@ -16,34 +17,11 @@ import Image from 'next/image';
 import { useEffect, useState } from 'react';
 import { ExtendedItem } from '../types';
 
-const useStyles = createStyles((theme) => ({
-  card: {
-    backgroundColor:
-      theme.colorScheme === 'dark' ? theme.colors.dark[7] : theme.white,
-  },
-
-  footer: {
-    display: 'flex',
-    justifyContent: 'space-between',
-    padding: `${theme.spacing.sm} ${theme.spacing.lg}`,
-    borderTop: `${rem(1)} solid ${
-      theme.colorScheme === 'dark' ? theme.colors.dark[5] : theme.colors.gray[2]
-    }`,
-    '&>div': {
-      width: '100%',
-    },
-  },
-
-  title: {
-    fontFamily: `Greycliff CF, ${theme.fontFamily}`,
-    lineHeight: 1,
-  },
-}));
-
 interface ItemCardProps {
   item: ExtendedItem;
   handleQuantityChange: any;
   resourceIds: { id: string; quantity: number }[];
+  handleDeleteItem: any;
 }
 
 const RESOURCE_ENDPOINT = 'https://api.dofusdu.de/dofus2/en/items/resources/';
@@ -52,6 +30,7 @@ export function ItemCard({
   item,
   resourceIds,
   handleQuantityChange,
+  handleDeleteItem,
 }: ItemCardProps) {
   const { classes } = useStyles();
   const [inputQuantity, setInputQuantity] = useState(item.quantity);
@@ -68,14 +47,25 @@ export function ItemCard({
     })),
   });
 
-  const handleInputQuantityChange = (id, value) => {
-    setInputQuantity(value);
-    handleQuantityChange(id, value);
+  const handleInputQuantityChange = (id: number, value: any) => {
+    if (value > 0) {
+      setInputQuantity(value);
+      handleQuantityChange(id, value);
+      return;
+    }
+    setInputQuantity(1);
+    handleQuantityChange(id, 1);
   };
 
   return (
     <Card withBorder padding="lg" className={classes.card}>
       <Card.Section>
+        <CloseButton
+          onClick={() => handleDeleteItem(item.ankama_id)}
+          size={'md'}
+          className={classes.closeButton}
+          color={'red'}
+        />
         <MantineImage
           src={item.image_urls.hd}
           alt={item.name}
@@ -154,3 +144,34 @@ export function ItemCard({
     </Card>
   );
 }
+
+const useStyles = createStyles((theme) => ({
+  card: {
+    backgroundColor:
+      theme.colorScheme === 'dark' ? theme.colors.dark[7] : theme.white,
+  },
+
+  footer: {
+    display: 'flex',
+    justifyContent: 'space-between',
+    padding: `${theme.spacing.sm} ${theme.spacing.lg}`,
+    borderTop: `${rem(1)} solid ${
+      theme.colorScheme === 'dark' ? theme.colors.dark[5] : theme.colors.gray[2]
+    }`,
+    '&>div': {
+      width: '100%',
+    },
+  },
+
+  title: {
+    fontFamily: `Greycliff CF, ${theme.fontFamily}`,
+    lineHeight: 1,
+  },
+
+  closeButton: {
+    color: 'white',
+    marginLeft: 'auto',
+    marginTop: '.2rem',
+    marginRight: '.2rem',
+  },
+}));

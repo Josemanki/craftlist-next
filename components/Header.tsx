@@ -10,6 +10,50 @@ import {
 import { useDisclosure } from '@mantine/hooks';
 import Link from 'next/link';
 
+interface HeaderProps {
+  links: { link: string; label: string }[];
+}
+
+export function Header({ links }: HeaderProps) {
+  const [opened, { toggle }] = useDisclosure(false);
+  const [active, setActive] = useState<string | null>(
+    typeof window !== 'undefined' ? location.pathname : null
+  );
+  const { classes, cx } = useStyles();
+
+  const items = links.map((link) => (
+    <Link
+      key={link.label}
+      href={link.link}
+      className={cx(classes.link, {
+        [classes.linkActive]: active === link.link,
+      })}
+    >
+      {link.label}
+    </Link>
+  ));
+
+  return (
+    <MantineHeader height={70}>
+      <Container className={classes.header}>
+        <Link href={'/'} className={classes.logo}>
+          <span className={classes.logoWhiteSpan}>Dofus</span>
+          <span className={classes.logoGreenSpan}>Craftlist</span>
+        </Link>
+        <Group spacing={5} className={classes.links}>
+          {items}
+        </Group>
+        <Burger
+          opened={opened}
+          onClick={toggle}
+          className={classes.burger}
+          size="sm"
+        />
+      </Container>
+    </MantineHeader>
+  );
+}
+
 const useStyles = createStyles((theme) => ({
   header: {
     display: 'flex',
@@ -77,47 +121,3 @@ const useStyles = createStyles((theme) => ({
     color: theme.colors.lime[6],
   },
 }));
-
-interface HeaderProps {
-  links: { link: string; label: string }[];
-}
-
-export function Header({ links }: HeaderProps) {
-  const [opened, { toggle }] = useDisclosure(false);
-  const [active, setActive] = useState<string | null>(
-    typeof window !== 'undefined' ? location.pathname : null
-  );
-  const { classes, cx } = useStyles();
-
-  const items = links.map((link) => (
-    <Link
-      key={link.label}
-      href={link.link}
-      className={cx(classes.link, {
-        [classes.linkActive]: active === link.link,
-      })}
-    >
-      {link.label}
-    </Link>
-  ));
-
-  return (
-    <MantineHeader height={70}>
-      <Container className={classes.header}>
-        <Link href={'/'} className={classes.logo}>
-          <span className={classes.logoWhiteSpan}>Dofus</span>
-          <span className={classes.logoGreenSpan}>Craftlist</span>
-        </Link>
-        <Group spacing={5} className={classes.links}>
-          {items}
-        </Group>
-        <Burger
-          opened={opened}
-          onClick={toggle}
-          className={classes.burger}
-          size="sm"
-        />
-      </Container>
-    </MantineHeader>
-  );
-}

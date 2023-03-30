@@ -23,8 +23,6 @@ const SearchBar = ({
     value: item.name,
   }));
 
-  console.log(data);
-
   return (
     <Autocomplete
       value={value}
