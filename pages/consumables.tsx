@@ -25,7 +25,7 @@ export default function ContactPage() {
   return (
     <Layout>
       <Head>
-        <title>Dofus Craftlist - Equipment</title>
+        <title>Dofus Craftlist - Consumables</title>
       </Head>
       <Container>
         <Box sx={{ margin: '1rem auto', maxWidth: '20rem' }}>
