@@ -1,10 +1,11 @@
 import { Box, createStyles, Loader, Text } from '@mantine/core';
 import { useQueries } from '@tanstack/react-query';
 import Image from 'next/image';
+import { Recipe } from '../types';
 import { getResourceById } from '../utils/api';
 
 type ResourceTableProps = {
-  allResources: any;
+  allResources: Map<number, Recipe>;
 };
 
 export const ResourceTable = ({ allResources }: ResourceTableProps) => {
@@ -12,9 +13,9 @@ export const ResourceTable = ({ allResources }: ResourceTableProps) => {
 
   const results = useQueries({
     queries: Array.from(allResources.values()).map(
-      ({ item_ankama_id, type }: any, i) => ({
+      ({ item_ankama_id, item_subtype }: Recipe) => ({
         queryKey: ['resource', item_ankama_id],
-        queryFn: () => getResourceById(item_ankama_id, type),
+        queryFn: () => getResourceById(item_ankama_id, item_subtype),
         staleTime: Infinity,
       })
     ),

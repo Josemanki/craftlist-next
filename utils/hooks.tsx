@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { useEffect, useMemo, useState } from 'react';
-import { AutocompleteItem, ExtendedItem, SearchItem } from '../types';
+import { TAutocompleteItem, ExtendedItem, Recipe, SearchItem } from '../types';
 
 export const useLocalStorage = <T,>(key: string, initialValue: T) => {
   // Checking window for SSR
@@ -95,7 +95,7 @@ export const useCraftlist = (
     }
   };
 
-  const onItemSubmit = (autocompleteItem: AutocompleteItem) => {
+  const onItemSubmit = (autocompleteItem: TAutocompleteItem) => {
     const { value, ...rest } = autocompleteItem;
     const itemWithoutValue = rest as ExtendedItem;
     const indexInCraftlist = craftlistItems.findIndex(
@@ -115,26 +115,27 @@ export const useCraftlist = (
   };
 
   const resourceList = useMemo(() => {
-    const ingredientsById = new Map();
+    const ingredientsById = new Map<number, Recipe>();
     craftlistItems
       .map((item) =>
         item.recipe.map((resource) => ({
           item_ankama_id: resource.item_ankama_id,
-          type: resource.item_subtype,
+          item_subtype: resource.item_subtype,
           quantity: resource.quantity * item.quantity,
         }))
       )
       .flat()
-      .forEach(({ item_ankama_id, type, quantity }) => {
+      .forEach(({ item_ankama_id, item_subtype, quantity }: Recipe) => {
         if (!ingredientsById.has(item_ankama_id)) {
           ingredientsById.set(item_ankama_id, {
             item_ankama_id,
-            type,
+            item_subtype,
             quantity,
           });
           return;
         }
-        ingredientsById.get(item_ankama_id).quantity += quantity;
+        const existingItem = ingredientsById.get(item_ankama_id);
+        if (existingItem) existingItem.quantity += quantity;
       });
     return ingredientsById;
   }, [craftlistItems]);

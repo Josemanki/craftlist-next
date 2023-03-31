@@ -37,7 +37,7 @@ export interface Resource {
   image_urls: ImageUrls;
 }
 
-export interface AutocompleteItem extends ExtendedItem {
+export interface TAutocompleteItem extends ExtendedItem {
   value: string;
 }
 
@@ -82,7 +82,7 @@ export interface Range {
 
 export interface Recipe {
   item_ankama_id: number;
-  item_subtype: string;
+  item_subtype: 'resources' | 'consumables' | 'equipment';
   quantity: number;
 }
 

@@ -1,13 +1,14 @@
 import { Autocomplete, AutocompleteItem, Group, Loader } from '@mantine/core';
 import React, { useState } from 'react';
+import { SearchItem, TAutocompleteItem } from '../types';
 import { AutoCompleteItem } from './AutoCompleteItem';
 
 type Props = {
   value: string;
   loading: boolean;
-  items: any[];
+  items: SearchItem[];
   handleChange: (val: string) => void;
-  onItemSubmit: (AutocompleteItem: any) => void;
+  onItemSubmit: (autocompleteItem: TAutocompleteItem) => void;
 };
 
 const SearchBar = ({
@@ -30,7 +31,7 @@ const SearchBar = ({
       data={data}
       onChange={handleChange}
       itemComponent={AutoCompleteItem}
-      onItemSubmit={(a) => onItemSubmit(a)}
+      onItemSubmit={(a: TAutocompleteItem) => onItemSubmit(a)}
       rightSection={loading ? <Loader size="1rem" /> : null}
       placeholder="Search items"
     />

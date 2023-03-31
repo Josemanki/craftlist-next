@@ -13,15 +13,15 @@ import {
 } from '@mantine/core';
 import { useQueries } from '@tanstack/react-query';
 import Image from 'next/image';
-import { useEffect, useState } from 'react';
+import { Dispatch, useEffect, useState } from 'react';
 import { ExtendedItem } from '../types';
 import { getResourceById } from '../utils/api';
 
 interface ItemCardProps {
   item: ExtendedItem;
-  handleQuantityChange: any;
+  handleQuantityChange: (id: number, quantity: number) => void;
   resourceIds: { id: number; quantity: number; type: string }[];
-  handleDeleteItem: any;
+  handleDeleteItem: (id: number) => void;
 }
 
 export function ItemCard({
@@ -45,7 +45,7 @@ export function ItemCard({
     })),
   });
 
-  const handleInputQuantityChange = (id: number, value: any) => {
+  const handleInputQuantityChange = (id: number, value: number) => {
     if (value > 0) {
       setInputQuantity(value);
       handleQuantityChange(id, value);
@@ -83,7 +83,7 @@ export function ItemCard({
             max={99}
             size={'sm'}
             onChange={(value) =>
-              handleInputQuantityChange(item.ankama_id, value)
+              value && handleInputQuantityChange(item.ankama_id, value)
             }
             styles={{
               input: {

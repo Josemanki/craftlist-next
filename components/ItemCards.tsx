@@ -5,8 +5,8 @@ import { ItemCard } from './ItemCard';
 
 type Props = {
   itemList: ExtendedItem[];
-  handleQuantityChange: any;
-  handleDeleteItem: any;
+  handleQuantityChange: (id: number, quantity: number) => void;
+  handleDeleteItem: (id: number) => void;
 };
 
 const ItemCards = ({
