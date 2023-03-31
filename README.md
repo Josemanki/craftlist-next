@@ -1,8 +1,13 @@
-# Mantine Next Template
+# Dofus Craftlist
 
-Get started with Mantine + Next with just a few button clicks.
-Click `Use this template` button at the header of repository or [follow this link](https://github.com/mantinedev/mantine-minimal-next-template/generate) and create new repository with `@mantine` packages. Note that you have to be logged in to GitHub to generate template.
+Small craft list (shopping list) generator for crafting Dofus items. Made with React using Hooks and a public API.
 
-## Minimal template
+## How to use
 
-This template includes minimal setup for server side rendering with Next.js, you can find a [fully featured template here](https://github.com/mantinedev/mantine-next-template).
+You can start using it by entering any item name, or general MMO-related word, for example "Shield" or "Helmet", it will then return a nice list that you can use in order to buy all the required items for your crafts.
+
+## Future plans
+
+- Making a consumable section
+- Export to .csv / .xls
+- Able to save specific lists
