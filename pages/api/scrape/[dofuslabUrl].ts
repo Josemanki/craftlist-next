@@ -3,10 +3,12 @@ import axios from 'axios';
 import type { NextApiRequest, NextApiResponse } from 'next';
 import { load } from 'cheerio';
 import { SearchItem } from '../../../types';
+import {
+  ITEM_SEARCH_ENDPOINT,
+  SINGLE_ITEM_ENDPOINT,
+} from '../../../utils/constants';
 
 const DOFUSLAB_BASE_URL = 'https://dofuslab.io/view/';
-const SEARCH_ENDPOINT = `https://api.dofusdu.de/dofus2/en/items/equipment/search?limit=8&query=`;
-const SINGLE_ITEM_ENDPOINT = `https://api.dofusdu.de/dofus2/en/items/equipment/`;
 
 export default async function handler(
   req: NextApiRequest,
@@ -30,7 +32,9 @@ export default async function handler(
 
       const returnResult = await Promise.all(
         itemsWithNameAndImage.map(async (item) => {
-          const { data } = await axios.get(`${SEARCH_ENDPOINT}${item.name}`);
+          const { data } = await axios.get(
+            `${ITEM_SEARCH_ENDPOINT}${item.name}`
+          );
           const filtered = data.filter((searchItem: SearchItem) => {
             const split = searchItem.image_urls.icon.split('/');
             return split[split.length - 1] === item.image;

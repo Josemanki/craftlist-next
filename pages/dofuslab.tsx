@@ -34,10 +34,14 @@ export default function DofuslabPage() {
       inputValue.at(-1) === '/'
         ? split[split.length - 2]
         : split[split.length - 1];
-    const { data } = await axios.get(`/api/scrape/${setId}`);
-    setCraftlistItems(data);
-    setIsLoading(false);
-    router.push('/equipment');
+    try {
+      const { data } = await axios.get(`/api/scrape/${setId}`);
+      setCraftlistItems(data);
+      setIsLoading(false);
+      router.push('/equipment');
+    } catch (error) {
+      console.log(error);
+    }
   };
   return (
     <Layout>

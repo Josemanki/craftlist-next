@@ -4,10 +4,11 @@ import ItemCards from '../components/ItemCards';
 import Layout from '../components/Layout';
 import { ResourceTable } from '../components/ResourceTable';
 import SearchBar from '../components/SearchBar';
+import {
+  CONSUMABLE_SEARCH_ENDPOINT,
+  SINGLE_CONSUMABLE_ENDPOINT,
+} from '../utils/constants';
 import { useCraftlist } from '../utils/hooks';
-
-const SEARCH_ENDPOINT = `https://api.dofusdu.de/dofus2/en/items/consumables/search?limit=8&query=`;
-const SINGLE_ITEM_ENDPOINT = `https://api.dofusdu.de/dofus2/en/items/consumables/`;
 
 export default function ContactPage() {
   const {
@@ -20,7 +21,11 @@ export default function ContactPage() {
     onItemSubmit,
     loading,
     handleDeleteItem,
-  } = useCraftlist('consumables', SEARCH_ENDPOINT, SINGLE_ITEM_ENDPOINT);
+  } = useCraftlist(
+    'consumables',
+    CONSUMABLE_SEARCH_ENDPOINT,
+    SINGLE_CONSUMABLE_ENDPOINT
+  );
 
   return (
     <Layout>

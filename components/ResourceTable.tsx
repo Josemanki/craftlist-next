@@ -1,27 +1,23 @@
 import { Box, createStyles, Loader, Text } from '@mantine/core';
 import { useQueries } from '@tanstack/react-query';
-import axios from 'axios';
 import Image from 'next/image';
-import { useState } from 'react';
+import { getResourceById } from '../utils/api';
 
 type ResourceTableProps = {
   allResources: any;
 };
 
-const RESOURCE_ENDPOINT = 'https://api.dofusdu.de/dofus2/en/items/resources/';
-
 export const ResourceTable = ({ allResources }: ResourceTableProps) => {
   const { classes } = useStyles();
 
   const results = useQueries({
-    queries: Array.from(allResources.keys()).map((resourceId: any, i) => ({
-      queryKey: ['resource', resourceId],
-      queryFn: async () => {
-        const result = await axios.get(`${RESOURCE_ENDPOINT}${resourceId}`);
-        return result;
-      },
-      staleTime: Infinity,
-    })),
+    queries: Array.from(allResources.values()).map(
+      ({ item_ankama_id, type }: any, i) => ({
+        queryKey: ['resource', item_ankama_id],
+        queryFn: () => getResourceById(item_ankama_id, type),
+        staleTime: Infinity,
+      })
+    ),
   });
 
   return (
@@ -83,7 +79,7 @@ const useStyles = createStyles((theme) => ({
   },
   listGridItem: {
     padding: '.15rem',
-    '&:nth-child(even)': {
+    '&:nth-of-type(even)': {
       backgroundColor: theme.colors.dark[5],
     },
   },

@@ -120,13 +120,18 @@ export const useCraftlist = (
       .map((item) =>
         item.recipe.map((resource) => ({
           item_ankama_id: resource.item_ankama_id,
+          type: resource.item_subtype,
           quantity: resource.quantity * item.quantity,
         }))
       )
       .flat()
-      .forEach(({ item_ankama_id, quantity }) => {
+      .forEach(({ item_ankama_id, type, quantity }) => {
         if (!ingredientsById.has(item_ankama_id)) {
-          ingredientsById.set(item_ankama_id, { item_ankama_id, quantity });
+          ingredientsById.set(item_ankama_id, {
+            item_ankama_id,
+            type,
+            quantity,
+          });
           return;
         }
         ingredientsById.get(item_ankama_id).quantity += quantity;

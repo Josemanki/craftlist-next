@@ -27,7 +27,8 @@ const ItemCards = ({
           item={itemData}
           key={itemData.ankama_id}
           resourceIds={itemData.recipe.map((resource) => ({
-            id: String(resource.item_ankama_id),
+            id: resource.item_ankama_id,
+            type: resource.item_subtype,
             quantity: resource.quantity,
           }))}
           handleQuantityChange={handleQuantityChange}

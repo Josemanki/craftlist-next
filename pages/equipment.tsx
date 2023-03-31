@@ -4,10 +4,8 @@ import ItemCards from '../components/ItemCards';
 import Layout from '../components/Layout';
 import { ResourceTable } from '../components/ResourceTable';
 import SearchBar from '../components/SearchBar';
+import { ITEM_SEARCH_ENDPOINT, SINGLE_ITEM_ENDPOINT } from '../utils/constants';
 import { useCraftlist } from '../utils/hooks';
-
-const SEARCH_ENDPOINT = `https://api.dofusdu.de/dofus2/en/items/equipment/search?limit=8&query=`;
-const SINGLE_ITEM_ENDPOINT = `https://api.dofusdu.de/dofus2/en/items/equipment/`;
 
 export default function EquipmentPage() {
   const {
@@ -20,7 +18,7 @@ export default function EquipmentPage() {
     onItemSubmit,
     loading,
     handleDeleteItem,
-  } = useCraftlist('equipment', SEARCH_ENDPOINT, SINGLE_ITEM_ENDPOINT);
+  } = useCraftlist('equipment', ITEM_SEARCH_ENDPOINT, SINGLE_ITEM_ENDPOINT);
 
   return (
     <Layout>

@@ -1,30 +1,28 @@
 import {
-  createStyles,
-  Card,
-  Image as MantineImage,
-  Text,
-  Group,
-  rem,
-  List,
   Box,
-  NumberInput,
-  Loader,
+  Card,
   CloseButton,
+  createStyles,
+  Group,
+  Image as MantineImage,
+  List,
+  Loader,
+  NumberInput,
+  rem,
+  Text,
 } from '@mantine/core';
 import { useQueries } from '@tanstack/react-query';
-import axios from 'axios';
 import Image from 'next/image';
 import { useEffect, useState } from 'react';
 import { ExtendedItem } from '../types';
+import { getResourceById } from '../utils/api';
 
 interface ItemCardProps {
   item: ExtendedItem;
   handleQuantityChange: any;
-  resourceIds: { id: string; quantity: number }[];
+  resourceIds: { id: number; quantity: number; type: string }[];
   handleDeleteItem: any;
 }
-
-const RESOURCE_ENDPOINT = 'https://api.dofusdu.de/dofus2/en/items/resources/';
 
 export function ItemCard({
   item,
@@ -42,7 +40,7 @@ export function ItemCard({
   const results = useQueries({
     queries: resourceIds.map((resource) => ({
       queryKey: ['resource', resource.id],
-      queryFn: () => axios.get(`${RESOURCE_ENDPOINT}${resource.id}`),
+      queryFn: () => getResourceById(resource.id, resource.type),
       staleTime: Infinity,
     })),
   });
