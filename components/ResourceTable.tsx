@@ -27,7 +27,11 @@ export const ResourceTable = ({ allResources }: ResourceTableProps) => {
         Your shopping list
       </Text>
       <ul className={classes.listGrid}>
-        {results &&
+        {results && !results.length ? (
+          <li className={classes.emptyMessage}>
+            Please add some items to get started!
+          </li>
+        ) : (
           results.map((result, i) => {
             const resource = result.data?.data;
             const resourceInMap = allResources.get(resource?.ankama_id);
@@ -53,7 +57,8 @@ export const ResourceTable = ({ allResources }: ResourceTableProps) => {
                 </Box>
               </li>
             );
-          })}
+          })
+        )}
       </ul>
     </>
   );
@@ -83,6 +88,13 @@ const useStyles = createStyles((theme) => ({
     '&:nth-of-type(even)': {
       backgroundColor: theme.colors.dark[5],
     },
+  },
+  emptyMessage: {
+    padding: '1rem',
+    display: 'flex',
+    justifyContent: 'center',
+    gridColumnStart: 1,
+    gridColumnEnd: 4,
   },
 }));
 
