@@ -4,7 +4,7 @@ import Head from 'next/head';
 import ItemCards from '../components/ItemCards';
 import { ResourceTable } from '../components/ResourceTable';
 import SearchBar from '../components/SearchBar';
-import { useCraftlist } from '../utils/hooks';
+import useCraftlist from '../hooks/useCraftlist';
 import { IDOL_SEARCH_ENDPOINT, SINGLE_IDOL_ENDPOINT } from '../utils/constants';
 
 export default function IdolsPage() {

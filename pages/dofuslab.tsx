@@ -5,7 +5,7 @@ import { ChangeEvent, useState } from 'react';
 import Layout from '../components/Layout';
 import { ExtendedItem } from '../types';
 import { DOFUSLAB_URL_REGEX } from '../utils/constants';
-import { useLocalStorage } from '../utils/hooks';
+import useLocalStorage from '../hooks/useLocalStorage';
 
 export default function DofuslabPage() {
   const [isLoading, setIsLoading] = useState(false);

@@ -1,4 +1,4 @@
-import { createStyles, Container, Group, rem } from '@mantine/core';
+import { Container, createStyles, rem } from '@mantine/core';
 
 export function Footer() {
   const { classes } = useStyles();

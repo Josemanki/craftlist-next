@@ -5,7 +5,7 @@ import Layout from '../components/Layout';
 import { ResourceTable } from '../components/ResourceTable';
 import SearchBar from '../components/SearchBar';
 import { ITEM_SEARCH_ENDPOINT, SINGLE_ITEM_ENDPOINT } from '../utils/constants';
-import { useCraftlist } from '../utils/hooks';
+import useCraftlist from '../hooks/useCraftlist';
 
 export default function EquipmentPage() {
   const {

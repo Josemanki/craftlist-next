@@ -1,6 +1,5 @@
 import {
   Burger,
-  Button,
   Container,
   createStyles,
   Divider,

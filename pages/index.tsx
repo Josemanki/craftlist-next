@@ -1,11 +1,4 @@
-import {
-  Group,
-  Button,
-  Box,
-  Text,
-  Container,
-  createStyles,
-} from '@mantine/core';
+import { Container, createStyles, Text } from '@mantine/core';
 import HomeCards from '../components/HomeCards';
 import Layout from '../components/Layout';
 import { cardData } from '../utils/constants';

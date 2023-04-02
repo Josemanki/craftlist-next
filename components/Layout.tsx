@@ -1,4 +1,4 @@
-import { AppShell, Box, Container, createStyles } from '@mantine/core';
+import { Box, createStyles } from '@mantine/core';
 import { links } from '../utils/constants';
 import { Footer } from './Footer';
 import { Header } from './Header';

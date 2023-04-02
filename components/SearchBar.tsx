@@ -1,5 +1,4 @@
-import { Autocomplete, AutocompleteItem, Group, Loader } from '@mantine/core';
-import React, { useState } from 'react';
+import { Autocomplete, Loader } from '@mantine/core';
 import { SearchItem, TAutocompleteItem } from '../types';
 import { AutoCompleteItem } from './AutoCompleteItem';
 

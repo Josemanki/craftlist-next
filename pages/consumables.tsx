@@ -8,7 +8,7 @@ import {
   CONSUMABLE_SEARCH_ENDPOINT,
   SINGLE_CONSUMABLE_ENDPOINT,
 } from '../utils/constants';
-import { useCraftlist } from '../utils/hooks';
+import useCraftlist from '../hooks/useCraftlist';
 
 export default function ContactPage() {
   const {

@@ -13,7 +13,7 @@ import {
 } from '@mantine/core';
 import { useQueries } from '@tanstack/react-query';
 import Image from 'next/image';
-import { Dispatch, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { ExtendedItem } from '../types';
 import { getResourceById } from '../utils/api';
 
