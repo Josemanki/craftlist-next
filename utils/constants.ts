@@ -51,3 +51,4 @@ export const IDOL_SEARCH_ENDPOINT = `https://api.dofusdu.de/dofus2/en/items/reso
 export const SINGLE_IDOL_ENDPOINT = `https://api.dofusdu.de/dofus2/en/items/resources/`;
 export const SINGLE_RESOURCE_ENDPOINT =
   'https://api.dofusdu.de/dofus2/en/items/resources/';
+export const ALMANAX_ENDPOINT = `https://api.dofusdu.de/dofus2/en/almanax?filter%5Bbonus_type%5D=saved-ingredients&range%5Bsize%5D=35&timezone=Europe%2FParis`;

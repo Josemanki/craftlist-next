@@ -1,6 +1,11 @@
-import { createStyles, SimpleGrid, Text } from '@mantine/core';
+import { createStyles, Grid, Text } from '@mantine/core';
+import { notifications } from '@mantine/notifications';
+import { useQuery } from '@tanstack/react-query';
+import { isToday } from 'date-fns';
 import Image from 'next/image';
 import Link from 'next/link';
+import { getAlmanax } from '../utils/api';
+import AlmanaxCard from './AlmanaxCard';
 
 interface CardData {
   link: string;
@@ -12,17 +17,30 @@ type HomeCardsProps = {
   cardData: CardData[];
 };
 
+const showNotification = (formattedBonus: string) => {
+  notifications.show({
+    title: 'Crafting Almanax Bonus going on!',
+    message: formattedBonus,
+  });
+};
+
 const HomeCards = ({ cardData }: HomeCardsProps) => {
+  const { data: almanaxData, isLoading: isAlmanaxDataLoading } = useQuery(
+    ['almanax'],
+    getAlmanax,
+    {
+      onSuccess(data) {
+        if (data && data.length && isToday(new Date(data[0].date))) {
+          showNotification(data[0].bonus.description);
+        }
+      },
+    }
+  );
   const { classes } = useStyles();
+
   return (
-    <SimpleGrid
-      cols={2}
-      spacing={16}
-      breakpoints={[
-        { maxWidth: 'md', cols: 2, spacing: 'md' },
-        { maxWidth: 'sm', cols: 1, spacing: 'sm' },
-      ]}
-    >
+    <Grid columns={2} justify={'center'} className={classes.cardGrid}>
+      <Grid.Col span={2}></Grid.Col>
       {cardData.map(({ link, label, image }) => (
         <Link href={link} key={link} className={classes.cardLink}>
           <Image src={image} alt={label} width={150} height={150} />
@@ -31,7 +49,11 @@ const HomeCards = ({ cardData }: HomeCardsProps) => {
           </Text>
         </Link>
       ))}
-    </SimpleGrid>
+      <AlmanaxCard
+        almanaxData={almanaxData || []}
+        isAlmanaxDataLoading={isAlmanaxDataLoading}
+      />
+    </Grid>
   );
 };
 
@@ -55,6 +77,9 @@ const useStyles = createStyles((theme) => ({
       backgroundColor: theme.colors.dark[4],
       transition: '.1s ease-in',
     },
+  },
+  cardGrid: {
+    gap: theme.spacing.md,
   },
 }));
 

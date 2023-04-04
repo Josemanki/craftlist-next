@@ -89,3 +89,19 @@ export interface Recipe {
 export interface Type {
   name: string;
 }
+
+export interface AlmanaxEntry {
+  bonus: Bonus;
+  date: Date;
+  tribute: Tribute;
+}
+
+export interface Bonus {
+  description: string;
+  type: Type;
+}
+
+export interface Tribute {
+  item: SearchItem;
+  quantity: number;
+}

@@ -4,10 +4,16 @@ import Head from 'next/head';
 import { MantineProvider } from '@mantine/core';
 import { theme } from '../utils/theme';
 import { useState } from 'react';
+import { Notifications } from '@mantine/notifications';
 
 export default function App(props: AppProps) {
   const { Component, pageProps } = props;
-  const [queryClient] = useState(() => new QueryClient());
+  const [queryClient] = useState(
+    () =>
+      new QueryClient({
+        defaultOptions: { queries: { refetchOnWindowFocus: false } },
+      })
+  );
 
   return (
     <>
@@ -48,6 +54,7 @@ export default function App(props: AppProps) {
 
       <QueryClientProvider client={queryClient}>
         <MantineProvider withGlobalStyles withNormalizeCSS theme={theme}>
+          <Notifications autoClose={5000} />
           <Component {...pageProps} />
         </MantineProvider>
       </QueryClientProvider>

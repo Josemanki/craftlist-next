@@ -1,6 +1,7 @@
 import axios from 'axios';
-import { ExtendedItem, SearchItem } from '../types';
+import { AlmanaxEntry, ExtendedItem, SearchItem } from '../types';
 import {
+  ALMANAX_ENDPOINT,
   SINGLE_CONSUMABLE_ENDPOINT,
   SINGLE_ITEM_ENDPOINT,
   SINGLE_RESOURCE_ENDPOINT,
@@ -43,5 +44,10 @@ export const getItemById = async (
   const { data } = await axios.get<ExtendedItem>(
     `${singleItemEndpoint}${itemId}`
   );
+  return data;
+};
+
+export const getAlmanax = async () => {
+  const { data } = await axios.get<AlmanaxEntry[]>(ALMANAX_ENDPOINT);
   return data;
 };
